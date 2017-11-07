@@ -1,0 +1,64 @@
+<?php
+
+$title = 'Edit Project Details';
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+$prj = $form->get('prjname');
+$prj->setAttribute('class', 'form-control');
+$prj->setAttribute('placeholder', 'Project title');
+
+$clientname = $form->get('clientname');
+$clientname->setAttribute('class', 'form-control');
+$clientname->setAttribute('placeholder', 'Client Name');
+
+$prjmanagername = $form->get('prjmanagername');
+$prjmanagername->setAttribute('class', 'form-control');
+$prjmanagername->setAttribute('placeholder', 'Project Manager Name');
+
+$prjstartdate = $form->get('prjstartdate');
+$prjstartdate->setAttribute('class', 'form-control');
+$prjstartdate->setAttribute('placeholder', 'yyyy-mm-dd');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+
+$form->setAttribute('action', $this->url('prj', [
+    'action' => 'edit',
+    'id'     => $id,
+]));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+<div class="form-group">
+    <?= $this->formLabel($prj) ?>
+    <?= $this->formElement($prj) ?>
+    <?= $this->formElementErrors()->render($prj, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($clientname) ?>
+    <?= $this->formElement($clientname) ?>
+    <?= $this->formElementErrors()->render($clientname, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($prjmanagername) ?>
+    <?= $this->formElement($prjmanagername) ?>
+    <?= $this->formElementErrors()->render($prjmanagername, ['class' => 'help-block']) ?>
+</div>
+
+<div class="form-group">
+    <?= $this->formLabel($prjstartdate) ?>
+    <?= $this->formElement($prjstartdate) ?>
+    <?= $this->formElementErrors()->render($prjstartdate, ['class' => 'help-block']) ?>
+</div>
+
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id'));
+echo $this->form()->closeTag();
+
+?>
