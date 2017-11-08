@@ -14,7 +14,7 @@
 return [
     'db' => [
         'driver' => 'Pdo',
-        //'dsn'    => sprintf('sqlite:%s/data/zftutorial.db', realpath(getcwd())),
+        //'dsn'    => sprintf('sqlite:%s/data/apir.db', realpath(getcwd())),
         'dsn'            => 'mysql:dbname=apir;host=localhost',
         'driver_options' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
