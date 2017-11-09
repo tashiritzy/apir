@@ -84,7 +84,7 @@ function readRecords() {
 		console.log(data);
 		
 		// close the popup
-		$("#add_new_record_modal").modal("hide");
+		$("#editmodal").modal("hide");
 		
 		// read records again
 		readRecords();
@@ -109,7 +109,7 @@ function readRecords() {
 		console.log(data);
 		
 		// close the popup
-		$("#add_new_record_modal").modal("hide");
+		$("#deletemodal").modal("hide");
 		
 		// read records again
 		location.reload();

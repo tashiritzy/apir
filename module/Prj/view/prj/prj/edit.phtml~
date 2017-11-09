@@ -19,7 +19,8 @@ $prjmanagername->setAttribute('placeholder', 'Project Manager Name');
 
 $prjstartdate = $form->get('prjstartdate');
 $prjstartdate->setAttribute('class', 'form-control');
-$prjstartdate->setAttribute('placeholder', 'yyyy-mm-dd');
+$prjstartdate->setAttribute('placeholder', 'mm/dd/yyyy');
+$prjstartdate->setAttribute('id', 'datepicker');
 
 $submit = $form->get('submit');
 $submit->setAttribute('class', 'btn btn-primary');
@@ -55,6 +56,18 @@ echo $this->form()->openTag($form);
     <?= $this->formElement($prjstartdate) ?>
     <?= $this->formElementErrors()->render($prjstartdate, ['class' => 'help-block']) ?>
 </div>
+
+<!--- for date picker ---->
+          <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script>
+
 
 <?php
 echo $this->formSubmit($submit);

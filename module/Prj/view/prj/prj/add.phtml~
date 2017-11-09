@@ -16,7 +16,7 @@ $clientname->setAttribute('placeholder', 'Client name');
 
 // This provides a default CSS class and placeholder text for the element:
 $prjstartdate = $form->get('prjstartdate');
-$prjstartdate->setAttribute('class', 'form-control');
+$prjstartdate->setAttribute('class', 'form-control col-md-5 col-lg-5');
 $prjstartdate->setAttribute('placeholder', 'mm/dd/yyyy');
 $prjstartdate->setAttribute('id', 'datepicker');
 
