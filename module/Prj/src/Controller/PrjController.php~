@@ -8,8 +8,6 @@ use Zend\View\Model\ViewModel;
 use Prj\Form\PrjForm;
 use Prj\Model\Prj;
 
-use Zend\View\Model\JsonModel;
-
 class PrjController extends AbstractActionController
 {
     
@@ -46,36 +44,32 @@ class PrjController extends AbstractActionController
 	    {
 		if ($this->getRequest()->isPost()) 
 		{
-						
-			//form
 			$form = new PrjForm();
-			$form->get('submit')->setValue('Add');
-		
-			$request = $this->getRequest();
-		
-			if (! $request->isPost()) {
-			    return ['form' => $form];
-			}
-			
-			//pass form data
+    $request = $this->getRequest();
+    $response = $this->getResponse();
+    $vm = new ViewModel(['form' => $form]);
+
+    
+    $this->_helper->layout()->disableLayout();
+            $this->_helper->viewRenderer->setNoRender(true);
+    
+    
+    //pass form data
 			$prj = new Prj();
-			//$form->setInputFilter($prj->getInputFilter());
-			//$form->setData($request->isPost());
-		
-			//check for invalid form elements
-			//if (! $form->isValid()) {
-			  //  return ['form' => $form];
-			//}
-
-
-			$data = $request->getPost();
-
-			//$form->setData($data);
-
-			//var_dump($data);
+			$form->setInputFilter($prj->getInputFilter());
     
     
-    			
+    //$form->setInputFilter(new ContactFormFilter());
+
+    if (!$this->getRequest()->isPost())
+        return new ViewModel(['form' => $this->form]);
+
+    $data = $request->getPost();
+
+    $form->setData($data);
+
+    //var_dump($data);
+    
         //if (!$form->isValid())
         //{
           //  $vm->setTerminal(true);
@@ -87,20 +81,9 @@ class PrjController extends AbstractActionController
 			
 		
 			//save and redirect
-			//$prj->exchangeArray($form->getData());
-			//$this->table->savePrj($prj);
+			$prj->exchangeArray($form->getData());
+			$this->table->savePrj($prj);
 			//return $this->redirect()->toRoute('prj');
-			
-			//disabling view layout
-			 $viewModel = new ViewModel();
-			    $viewModel->setVariables(array('key' => 'value'))
-				      ->setTerminal(true);
-
-    //return $viewModel;
-			
-			
-			return new JsonModel(array('prjname' => $data['prjname'], 'clientname' => $data['clientname']));
-			//return $this->response;
 		}
 	    } 
 	    else 

@@ -11,8 +11,8 @@ use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
-//using album module in the home page
-use Album\Controller\AlbumController;
+//using prj module in the home page
+use Prj\Controller\PrjController;
 
 return [
     'router' => [
@@ -22,7 +22,7 @@ return [
                 'options' => [
                     'route'    => '/',
                     'defaults' => [
-                        'controller' => AlbumController::class,
+                        'controller' => PrjController::class,
                         'action'     => 'index',
                     ],
                 ],

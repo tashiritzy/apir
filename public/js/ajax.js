@@ -1,30 +1,33 @@
 function addRecord() {
     // get values
-    //var artist = $("#prjname").val();
-    //var title = $("#clientname").val();
+    //var prjname = $("#prjname").val();
+    //var clientname = $("#clientname").val();
  
     var datastring = $("#myform").serialize();
     
     alert(datastring);
-	$.ajax({
+	jQuery.ajax({
 	    type: "POST",
+	    dataType: "json",
 	    url: "prj/add",
 	    data: datastring,
-	    //headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-	    //dataType: "json",
-	    success: function(data) {
-                //console.log(data.prjname + ' ' + data.clientname);
+	    cache: false,
+	    //contentType: {'application/json; charset=utf-8'},
+	    //headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	    success: function(json) {
+                console.log(json.prjname + ' ' + json.clientname);
 		
+                jQuery('.records_content').html(json);
                 //var obj = jQuery.parseJSON(data); if the dataType is not specified as json uncomment this
 		// do what ever you want with the server response
 		alert(JSON.stringify(data, null, 4));
-		console.log(data);
+		//console.log(data);
 		
 		// close the popup
 		$("#add_new_record_modal").modal("hide");
 		
 		// read records again
-		readRecords();
+		//readRecords();
 	    },
 	    error: function() {
 		alert('error handing here');
