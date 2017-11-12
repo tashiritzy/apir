@@ -42,6 +42,7 @@ class PrjController extends AbstractActionController
 	    return new ViewModel(['paginator' => $paginator]);
     }
     
+    //read data for after ajax view
     public function readrecordAction()
     {
     	 
@@ -60,6 +61,7 @@ class PrjController extends AbstractActionController
 	    return new ViewModel(['paginator' => $paginator]);
     }
     
+    //read data to populate edit modal
     public function readprjdetailsAction()
     {
     	if ($this->getRequest()->isXmlHttpRequest()) 

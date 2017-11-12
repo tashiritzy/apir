@@ -37,7 +37,7 @@ class PrjController extends AbstractActionController
 	    $paginator->setCurrentPageNumber($page);
 	
 	    // Set the number of items per page to 10:
-	    $paginator->setItemCountPerPage(100);
+	    $paginator->setItemCountPerPage(10);
 	
 	    return new ViewModel(['paginator' => $paginator]);
     }
@@ -55,7 +55,7 @@ class PrjController extends AbstractActionController
 	    $paginator->setCurrentPageNumber($page);
 	
 	    // Set the number of items per page to 10:
-	    $paginator->setItemCountPerPage(100);
+	    $paginator->setItemCountPerPage(10);
 	
 	    return new ViewModel(['paginator' => $paginator]);
     }
