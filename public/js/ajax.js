@@ -1,4 +1,4 @@
-
+//add new record function
 function addRecord() {
 	//Project name field validation
 	if( document.myform.prjname.value == "" )
@@ -47,7 +47,7 @@ function addRecord() {
 	}); 
 }
  
-// READ records
+//Read records for after ajax view
 function readRecords() {
     $.get("prj/readrecord", {}, function (data) {
         $(".records_content").html(data);
@@ -60,12 +60,8 @@ function readRecords() {
   //  readRecords(); // calling function
 //});
 
-//$(function(){
-  // readRecords();
-//});
-
+//Populating edit modal
 function getDetails(id){
-   
     // Add ID to the hidden field for furture usage
     $("#hidden_id").val(id);
     jQuery.ajax({
@@ -97,7 +93,7 @@ function getDetails(id){
     $("#edit_modal").modal("show");
 }
 
-//save new record / update existing record
+// update existing record
 function saveRecord() {
 	 // Project Name field validation
 	 if( document.myeform.eprjname.value == "" )
@@ -136,7 +132,7 @@ function saveRecord() {
       });
 }
 
-    //delete record
+//delete record
 function deleteRecord(id) {
     var conf = confirm("Are you sure, do you really want to delete?"+id);
     if (conf == true) {
@@ -150,5 +146,3 @@ function deleteRecord(id) {
         );
     }
 }
-
-  
