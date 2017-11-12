@@ -31,7 +31,6 @@ class PrjTable
     {
         // Create a new Select object for the table:
         $select = new Select($this->tableGateway->getTable());
-        $select->order('id DESC');
 
         // Create a new result set based on the Prj entity:
         $resultSetPrototype = new ResultSet();

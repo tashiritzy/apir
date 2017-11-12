@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="col-md-12">
+	
+	<table class="table table-bordered table-striped table-hover">
+	<tr>
+	    <th class="visible-lg visible-md">Normal Operations</th>
+	    <th>Project Name</th>
+	    <th>Client Name</th>
+	    <th>Project Manager</th>
+	    <th>Start Date</th>
+	    
+	    <th>Ajax Operation</th>
+	</tr>
+	<?php foreach ($this->paginator as $prj) : ?>
+	    <tr>
+	    	<td class="visible-lg visible-md">
+		<center>
+		    <a class="btn btn-info" href="<?= $this->url('prj', ['action' => 'edit', 'id' => $prj->id]) ?>">
+		    <span class="glyphicon glyphicon-pencil"></span> </a>
+		    
+		    <a class="btn btn-danger" href="<?= $this->url('prj', ['action' => 'delete', 'id' => $prj->id]) ?>">
+		    <span class="glyphicon glyphicon-trash"></span>&nbsp;</a>
+		</center>
+		 </td>
+		<td><?= $this->escapeHtml($prj->prjname) ?></td>
+		<td><?= $this->escapeHtml($prj->clientname) ?></td>
+		<td><?= $this->escapeHtml($prj->prjmanagername) ?></td>
+		<td><?= $this->escapeHtml($prj->prjstartdate) ?></td>
+		
+		 <td>
+			    <button type="button" class="btn btn-primary" onclick="getDetails(<?= $prj->id ?>)">
+			    <span class="glyphicon glyphicon-pencil"></span>
+			    </button>
+			    
+			    <button type="button" class="btn btn-danger" onclick="deleteRecord(<?= $prj->id ?>)">
+			    <span class="glyphicon glyphicon-trash"></span>
+			    </button>
+		 </td>
+	    </tr>
+	<?php endforeach; ?>
+		
+	</table>
+	<center>
+	<?= $this->paginationControl(
+	    // The paginator object:
+	    $this->paginator,
+	    // The scrolling style:
+	    'sliding',
+	    // The partial to use to render the control:
+	    'partial/paginator',
+	    // The route to link to when a user clicks a control link:
+	    ['route' => 'prj']
+	) ?>
+	</center>
+			
+	</div>
+</div>
+

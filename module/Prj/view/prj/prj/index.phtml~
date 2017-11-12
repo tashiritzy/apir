@@ -1,61 +1,79 @@
 <?php
-// module/Album/view/album/album/index.phtml:
-
 $title = 'Projects';
 $this->headTitle($title);
 ?>
 
-<script src="js/ajax.js"></script>
+<!--script src="js/ajax.js"></script-->
 
 <h1><?= $this->escapeHtml($title) ?></h1>
 <p>
     
     <a class="btn btn-success" href="<?= $this->url('prj', ['action' => 'add']) ?>"><span class="glyphicon glyphicon-plus-sign"></span>&nbsp;
-                Add new project details&nbsp;<span class="glyphicon glyphicon-user"></span></a>
+                Add new project details&nbsp;</a>
 </p>
 
 <!-- Content Section -->
-<div class="container">
+<div class="records_content">
+
 	<div class="row">
 		<div class="col-md-12">
 		
-			<table class="table table-bordered table-striped table-hover">
-			<tr>
-			    <th>Project Name</th>
-			    <th>Client Name</th>
-			    <th>Project Manager</th>
-			    <th>Start Date</th>
-			    <th>&nbsp;</th>
-			</tr>
-			<?php foreach ($prjs as $prj) : ?>
-			    <tr>
-				<td><?= $this->escapeHtml($prj->prjname) ?></td>
-				<td><?= $this->escapeHtml($prj->clientname) ?></td>
-				<td><?= $this->escapeHtml($prj->prjmanagername) ?></td>
-				<td><?= $this->escapeHtml($prj->prjstartdate) ?></td>
-				<td>
-				    <a class="btn btn-info" href="<?= $this->url('prj', ['action' => 'edit', 'id' => $prj->id]) ?>">
-				    <span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit</a>
-				    
-				    <a class="btn btn-danger" href="<?= $this->url('prj', ['action' => 'delete', 'id' => $prj->id]) ?>">
-				    <span class="glyphicon glyphicon-trash"></span>&nbsp;Delete</a>
-				</td>
-			    </tr>
-			<?php endforeach; ?>
-				<tr> <td colspan="6" class="records_content"></td></tr>
-			</table>
-		
-		<div class="pull-right">
-		<button class="btn btn-success" data-toggle="modal" data-target="#add_new_record_modal">Ajax Add New Record</button>
+		<table class="table table-bordered table-striped table-hover">
+		<tr>
+		    <th>Project Name</th>
+		    <th>Client Name</th>
+		    <th>Project Manager</th>
+		    <th>Start Date</th>
+		    <th>Normal Operation</th>
+		    <th>Ajax Operation</th>
+		</tr>
+		<?php foreach ($this->paginator as $prj) : ?>
+		    <tr>
+			<td><?= $this->escapeHtml($prj->prjname) ?></td>
+			<td><?= $this->escapeHtml($prj->clientname) ?></td>
+			<td><?= $this->escapeHtml($prj->prjmanagername) ?></td>
+			<td><?= $this->escapeHtml($prj->prjstartdate) ?></td>
+			<td>
+			<center>
+			    <a class="btn btn-info" href="<?= $this->url('prj', ['action' => 'edit', 'id' => $prj->id]) ?>">
+			    <span class="glyphicon glyphicon-pencil"></span> </a>
+			    
+			    <a class="btn btn-danger" href="<?= $this->url('prj', ['action' => 'delete', 'id' => $prj->id]) ?>">
+			    <span class="glyphicon glyphicon-trash"></span>&nbsp;</a>
+			</center>
+			   
+			</td>
+			<td>
+			    <button type="button" class="btn btn-primary" onclick="getDetails(<?= $prj->id ?>)">Ajax Edit</button>
+			    <button type="button" class="btn btn-danger" onclick="deleteRecord(<?= $prj->id ?>)">Ajax Delete</button>
+			</td>
+		    </tr>
+		<?php endforeach; ?>
+			
+		</table>
+		<center>
+		<?= $this->paginationControl(
+		    // The paginator object:
+		    $this->paginator,
+		    // The scrolling style:
+		    'sliding',
+		    // The partial to use to render the control:
+		    'partial/paginator',
+		    // The route to link to when a user clicks a control link:
+		    ['route' => 'prj']
+		) ?>
+		</center>
+	
+					
 		</div>
 	</div>
 
 </div>
-<!-- /Content Section -->
-
-
-
-<!-- Modal -->
+<div class="pull-right">
+<button class="btn btn-success" data-toggle="modal" data-target="#add_new_record_modal"><span class="glyphicon glyphicon-user"></span>&nbsp;Ajax Add New Record</button>
+</div>
+	
+<!-- Modal for Add New Record-->
 <div class="modal fade" id="add_new_record_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 <div class="modal-dialog" role="document">
 <div class="modal-content">
@@ -88,9 +106,10 @@ $this->headTitle($title);
 </div>
 
 </div>
+
 <div class="modal-footer">
 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-<button type="button" class="btn btn-primary" onclick="addRecord()">Add Record</button>
+<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="addRecord()">Add Record</button>
 </div>
 
 </form>
@@ -98,3 +117,64 @@ $this->headTitle($title);
 </div>
 </div>
 </div>
+
+<!-- Modal for Edit Record-->
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<h4 class="modal-title" id="myModalLabel">Edit Record</h4>
+</div>
+<div class="modal-body">
+
+<form id="myeform" name="myeform" method="post">
+
+<div class="form-group">
+<label for="PrjName">Project Name</label>
+<input type="text" id="eprjname" name="eprjname" placeholder="Project Name" class="form-control" />
+</div>
+ 
+<div class="form-group">
+<label for="clientname">Client Name</label>
+<input type="text" id="eclientname" name="eclientname" placeholder="Client Name" class="form-control" />
+</div>
+
+<div class="form-group">
+<label for="prjmanagername">Project Manager Name</label>
+<input type="text" id="eprjmanagername" name="eprjmanagername" placeholder="Project Manager Name" class="form-control" />
+</div>
+ 
+<div class="form-group">
+<label for="prjstartdate">Start Date</label>
+<input type="text" id="eprjstartdate" name="eprjstartdate" placeholder="mm/dd/yyyy" class="form-control" />
+</div>
+
+</div>
+<div class="modal-footer">
+<input type="hidden" id="hidden_id" name="hidden_id">
+<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+<button type="button" class="btn btn-primary" onclick="saveRecord()">Save Record</button>
+</div>
+
+</form>
+
+</div>
+</div>
+</div>	
+
+<!--- for date picker ---->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+  <script>
+  $( function() {
+    $( "#eprjstartdate" ).datepicker();
+  } );
+  
+  $( function() {
+    $( "#prjstartdate" ).datepicker();
+  } );
+  
+  </script>
